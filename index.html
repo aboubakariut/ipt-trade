@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B0F14">
+<title>Pulse — Suivi de marchés</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Ticker tape -->
+  <div class="ticker-wrap" id="tickerWrap" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-loading">Chargement du marché…</span>
+    </div>
+  </div>
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+          <path d="M1 15 L6 12 L10 16 L15 6 L19 9 L23 3" stroke="#E8A33D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="23" cy="3" r="2" fill="#3ECF8E"/>
+        </svg>
+      </span>
+      <span class="brand-name">PULSE</span>
+    </div>
+    <div class="header-actions">
+      <span class="status-dot" id="statusDot" title="Statut de connexion"></span>
+      <button class="btn-ghost" id="installBtn" hidden>Installer</button>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <section class="summary-card" id="summaryCard">
+      <div class="summary-label">Valeur totale du portefeuille</div>
+      <div class="summary-value" id="totalValue">$0.00</div>
+      <div class="summary-pl" id="totalPL">
+        <span class="pl-amount">$0.00</span>
+        <span class="pl-percent">(0.00%)</span>
+      </div>
+      <div class="summary-meta" id="lastUpdated">—</div>
+    </section>
+
+    <section class="holdings-section">
+      <div class="section-head">
+        <h2>Actifs suivis</h2>
+        <button class="btn-add" id="addAssetBtn" aria-label="Ajouter un actif">+ Ajouter</button>
+      </div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <p>Ton portefeuille est vide.</p>
+        <p class="empty-sub">Ajoute ton premier actif pour commencer à suivre sa valeur en temps réel.</p>
+        <button class="btn-primary" id="emptyAddBtn">Ajouter un actif</button>
+      </div>
+
+      <ul class="holdings-list" id="holdingsList"></ul>
+    </section>
+
+  </main>
+
+</div>
+
+<!-- Add asset sheet -->
+<div class="sheet-overlay" id="sheetOverlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-handle"></div>
+    <h3 id="sheetTitle">Ajouter un actif</h3>
+
+    <div class="field">
+      <label for="searchInput">Rechercher (nom ou symbole)</label>
+      <input type="text" id="searchInput" placeholder="ex : bitcoin, eth, solana…" autocomplete="off">
+    </div>
+
+    <ul class="search-results" id="searchResults"></ul>
+
+    <div id="selectedAssetBlock" class="selected-block" hidden>
+      <div class="selected-row">
+        <span id="selectedName"></span>
+        <button class="btn-text" id="changeSelectionBtn">changer</button>
+      </div>
+
+      <div class="field">
+        <label for="amountInput">Quantité détenue</label>
+        <input type="number" id="amountInput" placeholder="0.00" min="0" step="any" inputmode="decimal">
+      </div>
+
+      <div class="field">
+        <label for="buyPriceInput">Prix d'achat moyen (optionnel, $)</label>
+        <input type="number" id="buyPriceInput" placeholder="prix actuel si vide" min="0" step="any" inputmode="decimal">
+      </div>
+
+      <div class="sheet-actions">
+        <button class="btn-ghost" id="cancelAddBtn">Annuler</button>
+        <button class="btn-primary" id="confirmAddBtn">Ajouter au portefeuille</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
